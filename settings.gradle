@@ -1,2 +1,5 @@
 rootProject.name = 'CodeFlixJava'
+include 'domain'
+include 'application'
+include 'infrastructure'
 

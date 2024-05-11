@@ -1,6 +1,5 @@
-package com.codeflixjava.domain;
+package com.codeflixjava.domain.category;
 
-import com.codeflixjava.domain.category.Category;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

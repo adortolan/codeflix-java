@@ -3,7 +3,7 @@ package com.codeflixjava.domain.category;
 import com.codeflixjava.domain.AggregateRoot;
 
 import java.time.Instant;
-import java.util.UUID;
+
 
 public class Category extends AggregateRoot<CategoryID> {
     private final String name;

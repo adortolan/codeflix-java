@@ -1,6 +1,7 @@
 package com.codeflixjava.domain.category;
 
 import com.codeflixjava.domain.AggregateRoot;
+import com.codeflixjava.domain.validation.ValidationHandler;
 
 import java.time.Instant;
 
@@ -36,6 +37,11 @@ public class Category extends AggregateRoot<CategoryID> {
         final  var now = Instant.now();
 
         return new Category(id, name, description, isActive, now, now, null);
+    }
+
+    @Override
+    public void validate(final ValidationHandler handler) {
+        new CategoryValidator(this, handler).validate();
     }
 
     public CategoryID getId() {

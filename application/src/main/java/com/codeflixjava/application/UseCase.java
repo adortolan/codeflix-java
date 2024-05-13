@@ -2,8 +2,6 @@ package com.codeflixjava.application;
 
 import com.codeflixjava.domain.category.Category;
 
-public class UseCase {
-    public Category execute(){
-        return Category.newCategory("Video","Description", true);
-    }
+public abstract class UseCase<IN, OUT> {
+    public abstract OUT execute(IN anIn);
 }

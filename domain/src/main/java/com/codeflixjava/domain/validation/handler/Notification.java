@@ -7,7 +7,7 @@ import com.codeflixjava.domain.validation.ValidationHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Notification extends ValidationHandler {
+public class Notification implements ValidationHandler {
 
     private final List<Error> errors;
 

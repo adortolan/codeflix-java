@@ -1,4 +1,4 @@
-package com.codeflixjava.application.create;
+package com.codeflixjava.application.category.create;
 
 import com.codeflixjava.application.category.create.CreateCategoryCommand;
 import com.codeflixjava.application.category.create.CreateCategoryUseCase;

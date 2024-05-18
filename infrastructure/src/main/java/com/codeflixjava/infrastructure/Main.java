@@ -1,16 +1,9 @@
 package com.codeflixjava.infrastructure;
 
-import com.codeflixjava.domain.category.Category;
-import com.codeflixjava.infrastructure.category.persistence.CategoryJpaEntity;
-import com.codeflixjava.infrastructure.category.persistence.CategoryRepository;
 import com.codeflixjava.infrastructure.configuration.WebServerConfig;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.AbstractEnvironment;
-
-import java.util.List;
 
 @SpringBootApplication
 public class Main {
@@ -21,16 +14,4 @@ public class Main {
         SpringApplication.run(WebServerConfig.class, args);
     }
 
-    @Bean
-    public ApplicationRunner runner(CategoryRepository repository) {
-        return args -> {
-            List<CategoryJpaEntity> all = repository.findAll();
-
-            Category filmes = Category.newCategory("Filmes", null, true);
-
-            repository.saveAndFlush(CategoryJpaEntity.from(filmes));
-
-            repository.deleteAll();
-        };
-    }
 }

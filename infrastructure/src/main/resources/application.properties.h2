@@ -1,0 +1,6 @@
+spring.datasource.url=jdbc:h2:mem:adm_videos;MODE=MYSQL;DATABASE_TO_LOWER=TRUE
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=root
+spring.datasource.password=123456
+spring.h2.console.enable=true
+spring.h2.console.path=/h2

@@ -1,10 +1,8 @@
 package com.codeflixjava.infrastructure.category.persistence;
 
 import com.codeflixjava.domain.category.Category;
-import com.codeflixjava.infrastructure.category.persistence.CategoryJpaEntity;
-import com.codeflixjava.infrastructure.category.persistence.CategoryRepository;
 
-import com.codeflixjava.infrastructure.MySQLGatewayTest;
+import com.codeflixjava.MySQLGatewayTest;
 import org.hibernate.PropertyValueException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

@@ -20,11 +20,11 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Objects;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.hamcrest.Matchers.equalTo;
 
 @ControllerTest(controllers = CategoryAPI.class)
 public class CategoryAPITest {
@@ -48,7 +48,7 @@ public class CategoryAPITest {
         final var anInput = new CreateCategoryApiInput(expectedName, expectedDescription, expectedIsActive);
 
         when(createCategoryUseCase.execute(any()))
-                .thenReturn(Right(CreateCategoryOutput.from(CategoryID.from("123"))));
+                .thenReturn(Right(CreateCategoryOutput.from("123")));
 
         final var request = MockMvcRequestBuilders
                 .post("/categories")
@@ -57,10 +57,10 @@ public class CategoryAPITest {
 
         this.mvc.perform(request)
                 .andDo(print())
-                .andExpectAll(
-                        status().isCreated(),
-                        header().string("Location", "/categories/123")
-                );
+                .andExpect(status().isCreated())
+                .andExpect(header().string("Location", "/categories/123"))
+                .andExpect(header().string("Content-Type", MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(jsonPath("$.id", equalTo("123")));
 
         verify(createCategoryUseCase, times(1)).execute(argThat(cmd ->
                 Objects.equals(expectedName, cmd.name())

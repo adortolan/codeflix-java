@@ -3,6 +3,10 @@ import static io.vavr.API.Left;
 import static io.vavr.API.Right;
 
 import com.codeflixjava.application.category.create.CreateCategoryOutput;
+import com.codeflixjava.application.category.retrieve.get.CategoryOutput;
+import com.codeflixjava.application.category.retrieve.get.GetCategoryByIdUseCase;
+import com.codeflixjava.domain.category.Category;
+import com.codeflixjava.domain.category.CategoryID;
 import com.codeflixjava.domain.exceptions.DomainException;
 import com.codeflixjava.domain.validation.Error;
 import com.codeflixjava.domain.validation.handler.Notification;
@@ -22,6 +26,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Objects;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
@@ -41,6 +46,9 @@ public class CategoryAPITest {
     @MockBean
     private CreateCategoryUseCase createCategoryUseCase;
 
+    @MockBean
+    private GetCategoryByIdUseCase  getCategoryByIdUseCase;
+
     @Test
     public void givenAValidCommand_whenCallsCreateCategory_shouldReturnCategoryId() throws Exception {
         // given
@@ -57,9 +65,10 @@ public class CategoryAPITest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(this.mapper.writeValueAsString(anInput));
 
-        this.mvc.perform(request)
-                .andDo(print())
-                .andExpect(status().isCreated())
+        final var response = this.mvc.perform(request)
+                .andDo(print());
+
+                response.andExpect(status().isCreated())
                 .andExpect(header().string("Location", "/categories/123"))
                 .andExpect(header().string("Content-Type", MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(jsonPath("$.id", equalTo("123")));
@@ -121,9 +130,10 @@ public class CategoryAPITest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(this.mapper.writeValueAsString(aInput));
 
-        this.mvc.perform(request)
-                .andDo(print())
-                .andExpect(status().isUnprocessableEntity())
+        final var response = this.mvc.perform(request)
+                .andDo(print());
+
+        response.andExpect(status().isUnprocessableEntity())
                 .andExpect(header().string("Location", nullValue()))
                 .andExpect(header().string("Content-Type", MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(jsonPath("$.message", equalTo(expectedMessage)))
@@ -135,5 +145,50 @@ public class CategoryAPITest {
                         && Objects.equals(expectedDescription, cmd.description())
                         && Objects.equals(expectedIsActive, cmd.isActive())
         ));
+    }
+
+    @Test
+    public void givenAValidId_whenCallsGetCategory_shouldReturnCategory() throws Exception{
+        final var expectedName = "Filmes";
+        final var expectedDescription = "Categoria para filmes";
+        final var expectedIsActive = true;
+
+        final var aCategory = Category.newCategory(expectedName, expectedDescription, expectedIsActive);
+        final var expectedId = aCategory.getId().getValue();
+
+        when(getCategoryByIdUseCase.execute(any()))
+                .thenReturn(CategoryOutput.from(aCategory));
+
+        final var request = get("/categories/{id}", expectedId);
+        final var response = this.mvc.perform(request)
+                .andDo(print());
+
+        response.andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", equalTo(expectedId)))
+                .andExpect(jsonPath("$.name", equalTo(expectedName)))
+                .andExpect(jsonPath("$.description", equalTo(expectedDescription)))
+                .andExpect(jsonPath("$.is_active", equalTo(expectedIsActive)))
+                .andExpect(jsonPath("$.created_at", equalTo(aCategory.getCreatedAt().toString())))
+                .andExpect(jsonPath("$.updated_at", equalTo(aCategory.getUpdatedAt().toString())))
+                .andExpect(jsonPath("$.deleted_at", equalTo(aCategory.getDeletedAt().toString())));
+
+        verify(getCategoryByIdUseCase, times(1)).execute(eq(expectedId));
+    }
+
+    @Test
+    public void givenAInvalidId_whenCallsGetCategory_shouldReturnNotFound() throws Exception {
+        // given
+        final var expectedErrorMessage = "Category with ID 123 was not found";
+        final var expectedId = CategoryID.from("123").getValue();
+
+        // when
+        final var request = get("/categories/{id}", expectedId);
+
+        final var response = this.mvc.perform(request)
+                .andDo(print());
+
+        // then
+        response.andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message", equalTo(expectedErrorMessage)));
     }
 }

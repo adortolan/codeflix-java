@@ -5,6 +5,7 @@ import com.codeflixjava.application.category.update.UpdateCategoryUseCase;
 import com.codeflixjava.domain.category.Category;
 import com.codeflixjava.domain.category.CategoryGateway;
 import com.codeflixjava.domain.exceptions.DomainException;
+import com.codeflixjava.domain.exceptions.NotFoundException;
 import com.codeflixjava.infrastructure.IntegrationTest;
 import com.codeflixjava.infrastructure.category.persistence.CategoryJpaEntity;
 import com.codeflixjava.infrastructure.category.persistence.CategoryRepository;
@@ -181,7 +182,7 @@ public class UpdateCategoryUseCaseIT {
         final var expectedIsActive = false;
         final var expectedId = "123";
         final var expectedErrorCount = 1;
-        final var expectedErrorMessage = "Category with ID 123 not found";
+        final var expectedErrorMessage = "Category with ID 123 was not found";
 
         final var aCommand = UpdateCategoryCommand.with(
                 expectedId,
@@ -191,10 +192,9 @@ public class UpdateCategoryUseCaseIT {
         );
 
         final var actualException =
-                Assertions.assertThrows(DomainException.class, () -> useCase.execute(aCommand));
+                Assertions.assertThrows(NotFoundException.class, () -> useCase.execute(aCommand));
 
-        Assertions.assertEquals(expectedErrorCount, actualException.getErrors().size());
-        Assertions.assertEquals(expectedErrorMessage, actualException.getErrors().get(0).message());
+        Assertions.assertEquals(expectedErrorMessage, actualException.getMessage());
     }
 
 

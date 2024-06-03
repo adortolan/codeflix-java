@@ -3,6 +3,7 @@ package com.codeflixjava.infrastructure.api.controller;
 import com.codeflixjava.application.category.create.CreateCategoryCommand;
 import com.codeflixjava.application.category.create.CreateCategoryOutput;
 import com.codeflixjava.application.category.create.CreateCategoryUseCase;
+import com.codeflixjava.application.category.delete.DeleteCategoryUseCase;
 import com.codeflixjava.application.category.retrieve.get.GetCategoryByIdUseCase;
 import com.codeflixjava.application.category.update.UpdateCategoryCommand;
 import com.codeflixjava.application.category.update.UpdateCategoryOutput;
@@ -27,15 +28,18 @@ public class CategoryController implements CategoryAPI {
     private final CreateCategoryUseCase createCategoryUseCase;
     private final GetCategoryByIdUseCase getCategoryByIdUseCase;
     private final UpdateCategoryUseCase updateCategoryUseCase;
+    private final DeleteCategoryUseCase deleteCategoryUseCase;
 
     public CategoryController(
             final CreateCategoryUseCase createCategoryUseCase,
             final GetCategoryByIdUseCase getCategoryByIdUseCase,
-            final UpdateCategoryUseCase  updateCategoryUseCase)
+            final UpdateCategoryUseCase  updateCategoryUseCase,
+            final DeleteCategoryUseCase deleteCategoryUseCase)
     {
         this.createCategoryUseCase = Objects.requireNonNull(createCategoryUseCase);
         this.getCategoryByIdUseCase = Objects.requireNonNull(getCategoryByIdUseCase);
         this.updateCategoryUseCase = Objects.requireNonNull(updateCategoryUseCase);
+        this.deleteCategoryUseCase = Objects.requireNonNull(deleteCategoryUseCase);
     }
 
     @Override
@@ -83,5 +87,10 @@ public class CategoryController implements CategoryAPI {
 
         return this.updateCategoryUseCase.execute(aCommand)
                 .fold(onError, onSuccess);
+    }
+
+    @Override
+    public void deleteById(String id) {
+        this.deleteCategoryUseCase.execute(id);
     }
 }

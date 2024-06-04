@@ -1,9 +1,9 @@
 package com.codeflixjava.infrastructure.api;
 
 import com.codeflixjava.domain.pagination.Pagination;
-import com.codeflixjava.infrastructure.category.models.CategoryApiOutput;
-import com.codeflixjava.infrastructure.category.models.CreateCategoryApiInput;
-import com.codeflixjava.infrastructure.category.models.UpdateCategoryApiInput;
+import com.codeflixjava.infrastructure.category.models.CategoryResponse;
+import com.codeflixjava.infrastructure.category.models.CreateCategoryRequest;
+import com.codeflixjava.infrastructure.category.models.UpdateCategoryRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -29,7 +29,7 @@ public interface CategoryAPI {
             @ApiResponse(responseCode = "422", description = "A validation error was thrown"),
             @ApiResponse(responseCode = "500", description = "An internal server error was thrown"),
     })
-    ResponseEntity<?> createCategory(@RequestBody CreateCategoryApiInput input);
+    ResponseEntity<?> createCategory(@RequestBody CreateCategoryRequest input);
 
     @GetMapping
     @Operation(summary = "List all categories paginated")
@@ -57,7 +57,7 @@ public interface CategoryAPI {
             @ApiResponse(responseCode = "404", description = "Category was not found"),
             @ApiResponse(responseCode = "500", description = "An internal server error was thrown"),
     })
-    CategoryApiOutput getById(@PathVariable(name = "id") String id);
+    CategoryResponse getById(@PathVariable(name = "id") String id);
 
     @PutMapping(
             value = "{id}",
@@ -70,7 +70,7 @@ public interface CategoryAPI {
             @ApiResponse(responseCode = "404", description = "Category was not found"),
             @ApiResponse(responseCode = "500", description = "An internal server error was thrown"),
     })
-    ResponseEntity<?> updateById(@PathVariable(name = "id") String id, @RequestBody UpdateCategoryApiInput input);
+    ResponseEntity<?> updateById(@PathVariable(name = "id") String id, @RequestBody UpdateCategoryRequest input);
 
     @DeleteMapping(
             value = "{id}",

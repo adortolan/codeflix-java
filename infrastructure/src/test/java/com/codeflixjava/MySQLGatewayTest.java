@@ -1,6 +1,6 @@
 package com.codeflixjava;
 
-import com.codeflixjava.infrastructure.CleanUpExtension;
+import com.codeflixjava.infrastructure.MySQLCleanUpExtension;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
@@ -18,7 +18,7 @@ import java.lang.annotation.ElementType;
         @ComponentScan.Filter(type = FilterType.REGEX, pattern = ".[MySQLGateway]")
 })
 @DataJpaTest
-@ExtendWith(CleanUpExtension.class)
+@ExtendWith(MySQLCleanUpExtension.class)
 public @interface MySQLGatewayTest {
 }
 

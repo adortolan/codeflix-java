@@ -300,6 +300,22 @@ public class CategoryE2ETest {
         return this.mvc.perform(aRequest);
     }
 
+    @Test
+    public void asACatalogAdminIShouldBeAbleToDeleteACategoryByItsIdentifier() throws Exception {
+        Assertions.assertTrue(MYSQL_CONTAINER.isRunning());
+        Assertions.assertEquals(0, categoryRepository.count());
+
+        final var actualId = givenACategory("Filmes", null, true);
+
+        this.mvc.perform(
+                        delete("/categories/" + actualId.getValue())
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isNoContent());
+
+        Assertions.assertFalse(this.categoryRepository.existsById(actualId.getValue()));
+    }
+
     private CategoryID givenACategory(final String aName, final String aDescription, final boolean isActive) throws Exception {
         final var aRequestBody = new CreateCategoryRequest(aName, aDescription, isActive);
 

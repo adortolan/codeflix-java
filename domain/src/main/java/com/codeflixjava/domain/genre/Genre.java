@@ -2,7 +2,9 @@ package com.codeflixjava.domain.genre;
 
 import com.codeflixjava.domain.AggregateRoot;
 import com.codeflixjava.domain.category.CategoryID;
+import com.codeflixjava.domain.exceptions.NotificationException;
 import com.codeflixjava.domain.validation.ValidationHandler;
+import com.codeflixjava.domain.validation.handler.Notification;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -34,6 +36,12 @@ public class Genre extends AggregateRoot<GenreID> {
         this.createdAt = aCreatedAt;
         this.updatedAt = aUpdatedAt;
         this.deletedAt = aDeletedAt;
+
+        final var notification = Notification.create();
+        validate(notification);
+        if(notification.hasError()){
+            throw new NotificationException("Failed to create a Aggregate Genre", notification);
+        }
     }
 
     public static Genre newGenre(
@@ -72,7 +80,7 @@ public class Genre extends AggregateRoot<GenreID> {
 
     @Override
     public void validate(ValidationHandler handler) {
-
+        new GenreValidator(this, handler).validate();
     }
 
     public String getName() {

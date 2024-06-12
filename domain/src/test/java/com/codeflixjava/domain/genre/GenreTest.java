@@ -1,6 +1,7 @@
-import com.codeflixjava.domain.validation.handler.ThrowsValidationHandler;
-import model.exceptions.DomainException;
 package com.codeflixjava.domain.genre;
+
+import com.codeflixjava.domain.exceptions.NotificationException;
+import com.codeflixjava.domain.validation.handler.ThrowsValidationHandler;
 
 import com.codeflixjava.domain.exceptions.DomainException;
 import org.junit.jupiter.api.Assertions;
@@ -35,11 +36,10 @@ public class GenreTest {
         final var expectedErrorMessage = "'name' should not be null";
         final var expectedErrorCount = 1;
 
-        final var actualGenre = Genre.newGenre(expectedName, expectedActive);
-        actualGenre.validate();
-
         final var actualExceptionError = Assertions.assertThrows(
-                DomainException.class, () -> actualGenre.validate(new ThrowsValidationHandler()));
+                NotificationException.class, () -> {
+                    Genre.newGenre(expectedName, expectedActive);
+                });
 
         Assertions.assertEquals(expectedErrorCount, actualExceptionError.getErrors().size());
         Assertions.assertEquals(expectedErrorMessage, actualExceptionError.getErrors().get(0).message());
@@ -53,11 +53,10 @@ public class GenreTest {
         final var expectedErrorMessage = "'name' should not be empty";
         final var expectedErrorCount = 1;
 
-        final var actualGenre = Genre.newGenre(expectedName, expectedActive);
-        actualGenre.validate();
-
         final var actualExceptionError = Assertions.assertThrows(
-                DomainException.class, () -> actualGenre.validate(new ThrowsValidationHandler()));
+                NotificationException.class, () -> {
+                    Genre.newGenre(expectedName, expectedActive);
+                });
 
         Assertions.assertEquals(expectedErrorCount, actualExceptionError.getErrors().size());
         Assertions.assertEquals(expectedErrorMessage, actualExceptionError.getErrors().get(0).message());
@@ -66,17 +65,15 @@ public class GenreTest {
     @Test
     public void givenInvalidNameWithLengthGreaterThan255_whenCallNewGenreAndValidate_shouldReceiveAError(){
 
-
         final String expectedName = "a".repeat(256);
         final boolean expectedActive = true;
         final var expectedErrorMessage = "'name' must be between 1 and 255 characters";
         final var expectedErrorCount = 1;
 
-        final var actualGenre = Genre.newGenre(expectedName, expectedActive);
-        actualGenre.validate();
-
         final var actualExceptionError = Assertions.assertThrows(
-                DomainException.class, () -> actualGenre.validate(new ThrowsValidationHandler()));
+                NotificationException.class, () -> {
+                    Genre.newGenre(expectedName, expectedActive);
+                });
 
         Assertions.assertEquals(expectedErrorCount, actualExceptionError.getErrors().size());
         Assertions.assertEquals(expectedErrorMessage, actualExceptionError.getErrors().get(0).message());

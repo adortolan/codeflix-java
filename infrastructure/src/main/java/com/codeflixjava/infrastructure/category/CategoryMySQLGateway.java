@@ -3,7 +3,7 @@ package com.codeflixjava.infrastructure.category;
 import com.codeflixjava.domain.category.Category;
 import com.codeflixjava.domain.category.CategoryGateway;
 import com.codeflixjava.domain.category.CategoryID;
-import com.codeflixjava.domain.category.CategorySearchQuery;
+import com.codeflixjava.domain.pagination.SearchQuery;
 import com.codeflixjava.domain.pagination.Pagination;
 import com.codeflixjava.infrastructure.category.persistence.CategoryJpaEntity;
 import com.codeflixjava.infrastructure.category.persistence.CategoryRepository;
@@ -51,7 +51,7 @@ public class CategoryMySQLGateway implements CategoryGateway {
     }
 
     @Override
-    public Pagination<Category> findAll(CategorySearchQuery aQuery) {
+    public Pagination<Category> findAll(SearchQuery aQuery) {
         // Paginação
         final var page = PageRequest.of(
                 aQuery.page(),

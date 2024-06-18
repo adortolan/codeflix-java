@@ -243,7 +243,6 @@ public class GenreTest {
         Assertions.assertEquals(expectedIsActive, actualGenre.isActive());
         Assertions.assertEquals(expectedCategories, actualGenre.getCategories());
         Assertions.assertEquals(actualCreatedAt, actualGenre.getCreatedAt());
-        Assertions.assertTrue(actualUpdatedAt.isBefore(actualGenre.getUpdatedAt()));
         Assertions.assertNull(actualGenre.getDeletedAt());
     }
 

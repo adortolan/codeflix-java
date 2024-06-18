@@ -2,7 +2,7 @@ package com.codeflixjava.application.category.retrieve.list;
 
 import com.codeflixjava.domain.category.Category;
 import com.codeflixjava.domain.category.CategoryGateway;
-import com.codeflixjava.domain.category.CategorySearchQuery;
+import com.codeflixjava.domain.pagination.SearchQuery;
 import com.codeflixjava.domain.pagination.Pagination;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -46,7 +46,7 @@ public class ListCategoriesUseCaseTest {
         final var expectedDirection = "asc";
 
         final var aQuery =
-                new CategorySearchQuery(expectedPage, expectedPerPage, expectedTerms, expectedSort, expectedDirection);
+                new SearchQuery(expectedPage, expectedPerPage, expectedTerms, expectedSort, expectedDirection);
 
         final var expectedPagination =
                 new Pagination<>(expectedPage,  expectedPerPage, categories.size(), categories);
@@ -77,7 +77,7 @@ public class ListCategoriesUseCaseTest {
         final var expectedDirection = "asc";
 
         final var aQuery =
-                new CategorySearchQuery(expectedPage, expectedPerPage, expectedTerms, expectedSort, expectedDirection);
+                new SearchQuery(expectedPage, expectedPerPage, expectedTerms, expectedSort, expectedDirection);
 
         final var expectedPagination =
                 new Pagination<>(expectedPage, expectedPerPage, categories.size(), categories);
@@ -106,7 +106,7 @@ public class ListCategoriesUseCaseTest {
         final var expectedDirection = "asc";
 
         final var aQuery =
-                new CategorySearchQuery(expectedPage, expectedPerPage, expectedTerms, expectedSort, expectedDirection);
+                new SearchQuery(expectedPage, expectedPerPage, expectedTerms, expectedSort, expectedDirection);
 
         final var expectedErrorMessage = "Gateway error";
 

@@ -9,7 +9,7 @@ import com.codeflixjava.application.category.retrieve.list.ListCategoriesUseCase
 import com.codeflixjava.application.category.update.UpdateCategoryCommand;
 import com.codeflixjava.application.category.update.UpdateCategoryOutput;
 import com.codeflixjava.application.category.update.UpdateCategoryUseCase;
-import com.codeflixjava.domain.category.CategorySearchQuery;
+import com.codeflixjava.domain.pagination.SearchQuery;
 import com.codeflixjava.domain.pagination.Pagination;
 import com.codeflixjava.domain.validation.handler.Notification;
 import com.codeflixjava.infrastructure.api.CategoryAPI;
@@ -73,7 +73,7 @@ public class CategoryController implements CategoryAPI {
             int perPage,
             String sort,
             String direction) {
-        return listCategoriesUseCase.execute(new CategorySearchQuery(page, perPage, search, sort, direction))
+        return listCategoriesUseCase.execute(new SearchQuery(page, perPage, search, sort, direction))
                 .map(CategoryApiPresenter::present);
     }
 

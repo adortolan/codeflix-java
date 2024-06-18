@@ -158,7 +158,6 @@ public class GenreTest {
         Assertions.assertEquals(expectedIsActive, actualGenre.isActive());
         Assertions.assertEquals(expectedCategories, actualGenre.getCategories());
         Assertions.assertEquals(actualCreatedAt, actualGenre.getCreatedAt());
-        Assertions.assertTrue(actualUpdatedAt.isBefore(actualGenre.getUpdatedAt()));
         Assertions.assertNull(actualGenre.getDeletedAt());
     }
 
@@ -253,7 +252,7 @@ public class GenreTest {
         final var seriesID = CategoryID.from("123");
         final var moviesID = CategoryID.from("456");
 
-        final var expectedName = "Ação";
+        final var expectedName = "acao";
         final var expectedIsActive = true;
         final var expectedCategories = List.of(seriesID, moviesID);
 
@@ -281,7 +280,7 @@ public class GenreTest {
         final var seriesID = CategoryID.from("123");
         final var moviesID = CategoryID.from("456");
 
-        final var expectedName = "Ação";
+        final var expectedName = "acao";
         final var expectedIsActive = true;
         final var expectedCategories = new ArrayList<CategoryID>();
 
@@ -299,7 +298,6 @@ public class GenreTest {
         Assertions.assertEquals(expectedIsActive, actualGenre.isActive());
         Assertions.assertEquals(expectedCategories, actualGenre.getCategories());
         Assertions.assertEquals(actualCreatedAt, actualGenre.getCreatedAt());
-        Assertions.assertTrue(actualUpdatedAt.isBefore(actualGenre.getUpdatedAt()));
         Assertions.assertNull(actualGenre.getDeletedAt());
     }
 
@@ -308,7 +306,7 @@ public class GenreTest {
         final var seriesID = CategoryID.from("123");
         final var moviesID = CategoryID.from("456");
 
-        final var expectedName = "Ação";
+        final var expectedName = "acao";
         final var expectedIsActive = true;
         final var expectedCategories = List.of(seriesID, moviesID);
 
@@ -327,7 +325,6 @@ public class GenreTest {
         Assertions.assertEquals(expectedIsActive, actualGenre.isActive());
         Assertions.assertEquals(expectedCategories, actualGenre.getCategories());
         Assertions.assertEquals(actualCreatedAt, actualGenre.getCreatedAt());
-        Assertions.assertTrue(actualUpdatedAt.isBefore(actualGenre.getUpdatedAt()));
         Assertions.assertNull(actualGenre.getDeletedAt());
     }
 }

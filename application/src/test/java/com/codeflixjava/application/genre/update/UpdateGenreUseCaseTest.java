@@ -11,7 +11,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 import java.util.Objects;
@@ -23,7 +22,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class UpdateGenreUseCase {
+public class UpdateGenreUseCaseTest {
 
     @InjectMocks
     private DefaultUpdateGenreUseCase useCase;
@@ -48,7 +47,7 @@ public class UpdateGenreUseCase {
                 expectedId.getValue(),
                 expectedName,
                 expectedIsActive,
-                expectedCategories
+                asString(expectedCategories)
         );
 
         when(genreGateway.findById(any()))
@@ -74,5 +73,11 @@ public class UpdateGenreUseCase {
                         && aGenre.getUpdatedAt().isBefore(aUpdatedGenre.getUpdatedAt())
                         && Objects.isNull(aUpdatedGenre.getDeletedAt())
         ));
+    }
+
+    private List<String> asString(final List<CategoryID> ids) {
+        return ids.stream()
+                .map(CategoryID::getValue)
+                .toList();
     }
 }

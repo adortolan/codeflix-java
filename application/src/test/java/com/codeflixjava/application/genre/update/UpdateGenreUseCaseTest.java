@@ -1,4 +1,5 @@
 package com.codeflixjava.application.genre.update;
+import com.codeflixjava.application.UseCaseTest;
 import com.codeflixjava.domain.category.CategoryGateway;
 import com.codeflixjava.domain.category.CategoryID;
 import com.codeflixjava.domain.exceptions.NotificationException;
@@ -9,9 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
-
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.List;
 import java.util.Objects;
@@ -22,8 +20,7 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
-public class UpdateGenreUseCaseTest {
+public class UpdateGenreUseCaseTest extends UseCaseTest {
 
     @InjectMocks
     private DefaultUpdateGenreUseCase useCase;
@@ -264,5 +261,10 @@ public class UpdateGenreUseCaseTest {
         return ids.stream()
                 .map(CategoryID::getValue)
                 .toList();
+    }
+
+    @Override
+    protected List<Object> getMocks() {
+        return List.of(categoryGateway, genreGateway);
     }
 }

@@ -1,16 +1,15 @@
 package com.codeflixjava.application.genre.create;
 
+import com.codeflixjava.application.UseCaseTest;
 import com.codeflixjava.domain.category.CategoryGateway;
 import com.codeflixjava.domain.category.CategoryID;
 import com.codeflixjava.domain.exceptions.NotificationException;
 import com.codeflixjava.domain.genre.GenreGateway;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 import java.util.Objects;
@@ -21,8 +20,7 @@ import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
-public class CreateGenreUseCaseTest {
+public class CreateGenreUseCaseTest extends UseCaseTest {
     @InjectMocks
     private DefaultCreateGenreUseCase useCase;
 
@@ -259,5 +257,10 @@ public class CreateGenreUseCaseTest {
         return categories.stream()
                 .map(CategoryID::getValue)
                 .toList();
+    }
+
+    @Override
+    protected List<Object> getMocks() {
+        return List.of(categoryGateway, genreGateway);
     }
 }

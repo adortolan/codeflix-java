@@ -1,36 +1,27 @@
 package com.codeflixjava.application.category.retrieve.list;
 
+import com.codeflixjava.application.UseCaseTest;
 import com.codeflixjava.domain.category.Category;
 import com.codeflixjava.domain.category.CategoryGateway;
 import com.codeflixjava.domain.pagination.SearchQuery;
 import com.codeflixjava.domain.pagination.Pagination;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
-public class ListCategoriesUseCaseTest {
+public class ListCategoriesUseCaseTest extends UseCaseTest {
 
     @InjectMocks
     private DefaultListCategoriesUseCase useCase;
 
     @Mock
     private CategoryGateway categoryGateway;
-
-    @BeforeEach
-    void cleanUp() {
-        Mockito.reset(categoryGateway);
-    }
 
     @Test
     public void givenAValidQuery_whenCallsListCategories_shouldReturnCategories() {
@@ -116,5 +107,10 @@ public class ListCategoriesUseCaseTest {
         final var actualException = Assertions.assertThrows(IllegalStateException.class, () -> useCase.execute(aQuery));
 
         Assertions.assertEquals(expectedErrorMessage, actualException.getMessage());
+    }
+
+    @Override
+    protected List<Object> getMocks() {
+        return List.of(categoryGateway);
     }
 }

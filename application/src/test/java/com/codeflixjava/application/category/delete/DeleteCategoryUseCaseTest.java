@@ -1,34 +1,28 @@
 package com.codeflixjava.application.category.delete;
 
+import com.codeflixjava.application.UseCaseTest;
 import com.codeflixjava.domain.category.Category;
 import com.codeflixjava.domain.category.CategoryGateway;
 import com.codeflixjava.domain.category.CategoryID;
-import com.codeflixjava.domain.exceptions.DomainException;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
-public class DeleteCategoryUseCaseTest {
+
+public class DeleteCategoryUseCaseTest extends UseCaseTest {
 
     @InjectMocks
     private DefaultDeleteCategoryUseCase useCase;
 
     @Mock
     private CategoryGateway categoryGateway;
-
-    @BeforeEach
-    void cleanUp() {
-        Mockito.reset(categoryGateway);
-    }
 
     @Test
     public void givenAValidId_whenCallsDeleteCategory_shouldBeOK() {
@@ -66,5 +60,10 @@ public class DeleteCategoryUseCaseTest {
         Assertions.assertThrows(IllegalStateException.class, () -> useCase.execute(expectedId.getValue()));
 
         Mockito.verify(categoryGateway, times(1)).deleteById(eq(expectedId));
+    }
+
+    @Override
+    protected List<Object> getMocks() {
+        return List.of(categoryGateway);
     }
 }

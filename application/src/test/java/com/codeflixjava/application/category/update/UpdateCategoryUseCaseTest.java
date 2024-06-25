@@ -1,20 +1,18 @@
 package com.codeflixjava.application.category.update;
 
 
+import com.codeflixjava.application.UseCaseTest;
 import com.codeflixjava.domain.category.Category;
 import com.codeflixjava.domain.category.CategoryGateway;
 import com.codeflixjava.domain.category.CategoryID;
-import com.codeflixjava.domain.exceptions.DomainException;
 import com.codeflixjava.domain.exceptions.NotFoundException;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -23,19 +21,13 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
-public class UpdateCategoryUseCaseTest {
+public class UpdateCategoryUseCaseTest extends UseCaseTest {
 
     @InjectMocks
     private DefaultUpdateCategoryUseCase useCase;
 
     @Mock
     private CategoryGateway categoryGateway;
-
-    @BeforeEach
-    void cleanUp() {
-        Mockito.reset(categoryGateway);
-    }
 
     @Test
     public void givenAValidCommand_whenCallsUpdateCategory_shouldReturnCategoryId() {
@@ -134,5 +126,10 @@ public class UpdateCategoryUseCaseTest {
         Mockito.verify(categoryGateway, times(1)).findById(eq(CategoryID.from(expectedId)));
 
         Mockito.verify(categoryGateway, times(0)).update(any());
+    }
+
+    @Override
+    protected List<Object> getMocks() {
+        return List.of(categoryGateway);
     }
 }

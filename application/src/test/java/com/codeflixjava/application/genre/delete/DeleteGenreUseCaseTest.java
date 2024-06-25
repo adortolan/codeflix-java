@@ -3,6 +3,7 @@ package com.codeflixjava.application.genre.delete;
 import com.codeflixjava.application.UseCaseTest;
 import com.codeflixjava.domain.genre.Genre;
 import com.codeflixjava.domain.genre.GenreGateway;
+import com.codeflixjava.domain.genre.GenreID;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

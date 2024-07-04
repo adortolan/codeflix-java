@@ -14,7 +14,9 @@ import java.lang.annotation.ElementType;
 @Retention(value = RetentionPolicy.RUNTIME)
 @Inherited
 @ActiveProfiles("test-integration")
-@ComponentScan(includeFilters = {
+@ComponentScan(
+        basePackages = "com.codeflixjava",
+        includeFilters = {
         @ComponentScan.Filter(type = FilterType.REGEX, pattern = ".[MySQLGateway]")
 })
 @DataJpaTest

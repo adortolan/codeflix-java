@@ -4,6 +4,7 @@ import com.codeflixjava.MySQLGatewayTest;
 import com.codeflixjava.domain.category.Category;
 import com.codeflixjava.domain.category.CategoryID;
 import com.codeflixjava.domain.genre.Genre;
+import com.codeflixjava.domain.genre.GenreID;
 import com.codeflixjava.infrastructure.category.CategoryMySQLGateway;
 import com.codeflixjava.infrastructure.genre.persistence.GenreJpaEntity;
 import com.codeflixjava.infrastructure.genre.persistence.GenreRepository;
@@ -292,6 +293,34 @@ public class GenreMySQLGatewayTest {
         Assertions.assertTrue(aGenre.getUpdatedAt().isBefore(persistedGenre.getUpdatedAt()));
         Assertions.assertEquals(actualGenre.getDeletedAt(), persistedGenre.getDeletedAt());
         Assertions.assertNotNull(persistedGenre.getDeletedAt());
+    }
+
+    @Test
+    public void givenAPrePersistedGenre_whenCallsDeleteById_shouldDeleteGenre() {
+        // given
+        final var aGenre = Genre.newGenre("Ação", true);
+
+        genreRepository.saveAndFlush(GenreJpaEntity.from(aGenre));
+
+        Assertions.assertEquals(1, genreRepository.count());
+
+        // when
+        genreGateway.deleteById(aGenre.getId());
+
+        // then
+        Assertions.assertEquals(0, genreRepository.count());
+    }
+
+    @Test
+    public void givenAnInvalidGenre_whenCallsDeleteById_shouldReturnOK() {
+        // given
+        Assertions.assertEquals(0, genreRepository.count());
+
+        // when
+        genreGateway.deleteById(GenreID.from("123"));
+
+        // then
+        Assertions.assertEquals(0, genreRepository.count());
     }
 
     private List<CategoryID> sorted(final List<CategoryID> expectedCategories) {

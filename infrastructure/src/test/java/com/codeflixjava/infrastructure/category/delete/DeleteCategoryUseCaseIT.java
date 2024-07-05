@@ -1,10 +1,10 @@
 package com.codeflixjava.infrastructure.category.delete;
 
+import com.codeflixjava.JacksonTest;
 import com.codeflixjava.application.category.delete.DeleteCategoryUseCase;
 import com.codeflixjava.domain.category.Category;
 import com.codeflixjava.domain.category.CategoryGateway;
 import com.codeflixjava.domain.category.CategoryID;
-import com.codeflixjava.infrastructure.IntegrationTest;
 import com.codeflixjava.infrastructure.category.persistence.CategoryJpaEntity;
 import com.codeflixjava.infrastructure.category.persistence.CategoryRepository;
 import org.junit.jupiter.api.Assertions;
@@ -19,7 +19,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 
-@IntegrationTest
+@JacksonTest.IntegrationTest
 public class DeleteCategoryUseCaseIT {
 
     @Autowired

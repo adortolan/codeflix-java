@@ -1,8 +1,8 @@
 package com.codeflixjava.infrastructure.category.create;
+import com.codeflixjava.JacksonTest;
 import com.codeflixjava.application.category.create.CreateCategoryCommand;
 import com.codeflixjava.application.category.create.CreateCategoryUseCase;
 import com.codeflixjava.domain.category.CategoryGateway;
-import com.codeflixjava.infrastructure.IntegrationTest;
 import com.codeflixjava.infrastructure.category.persistence.CategoryRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 
-@IntegrationTest
+@JacksonTest.IntegrationTest
 public class CreateCategoryUseCaseIT {
 
     @Autowired

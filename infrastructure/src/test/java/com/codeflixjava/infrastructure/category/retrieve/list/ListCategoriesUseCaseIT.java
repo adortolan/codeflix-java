@@ -1,8 +1,8 @@
 package com.codeflixjava.infrastructure.category.retrieve.list;
+import com.codeflixjava.JacksonTest;
 import com.codeflixjava.application.category.retrieve.list.ListCategoriesUseCase;
 import com.codeflixjava.domain.category.Category;
 import com.codeflixjava.domain.pagination.SearchQuery;
-import com.codeflixjava.infrastructure.IntegrationTest;
 import com.codeflixjava.infrastructure.category.persistence.CategoryJpaEntity;
 import com.codeflixjava.infrastructure.category.persistence.CategoryRepository;
 import org.junit.jupiter.api.Assertions;
@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.stream.Stream;
 
-@IntegrationTest
+@JacksonTest.IntegrationTest
 public class ListCategoriesUseCaseIT {
 
     @Autowired

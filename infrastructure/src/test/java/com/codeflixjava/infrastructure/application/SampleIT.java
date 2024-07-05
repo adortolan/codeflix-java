@@ -1,13 +1,13 @@
 package com.codeflixjava.infrastructure.application;
 
+import com.codeflixjava.JacksonTest;
 import com.codeflixjava.application.category.create.CreateCategoryUseCase;
-import com.codeflixjava.infrastructure.IntegrationTest;
 import com.codeflixjava.infrastructure.category.persistence.CategoryRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@IntegrationTest
+@JacksonTest.IntegrationTest
 public class SampleIT {
 
     @Autowired

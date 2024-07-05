@@ -1,11 +1,11 @@
 package com.codeflixjava.infrastructure.category.retrieve.get;
 
+import com.codeflixjava.JacksonTest;
 import com.codeflixjava.application.category.retrieve.get.GetCategoryByIdUseCase;
 import com.codeflixjava.domain.category.Category;
 import com.codeflixjava.domain.category.CategoryGateway;
 import com.codeflixjava.domain.category.CategoryID;
 import com.codeflixjava.domain.exceptions.DomainException;
-import com.codeflixjava.infrastructure.IntegrationTest;
 import com.codeflixjava.infrastructure.category.persistence.CategoryJpaEntity;
 import com.codeflixjava.infrastructure.category.persistence.CategoryRepository;
 import org.junit.jupiter.api.Assertions;
@@ -18,7 +18,7 @@ import java.util.Arrays;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
 
-@IntegrationTest
+@JacksonTest.IntegrationTest
 public class GetCategoryByIdUseCaseIT {
 
     @Autowired

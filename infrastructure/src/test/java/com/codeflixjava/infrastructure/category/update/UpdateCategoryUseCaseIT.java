@@ -1,12 +1,11 @@
 package com.codeflixjava.infrastructure.category.update;
 
+import com.codeflixjava.JacksonTest;
 import com.codeflixjava.application.category.update.UpdateCategoryCommand;
 import com.codeflixjava.application.category.update.UpdateCategoryUseCase;
 import com.codeflixjava.domain.category.Category;
 import com.codeflixjava.domain.category.CategoryGateway;
-import com.codeflixjava.domain.exceptions.DomainException;
 import com.codeflixjava.domain.exceptions.NotFoundException;
-import com.codeflixjava.infrastructure.IntegrationTest;
 import com.codeflixjava.infrastructure.category.persistence.CategoryJpaEntity;
 import com.codeflixjava.infrastructure.category.persistence.CategoryRepository;
 import org.junit.jupiter.api.Assertions;
@@ -22,7 +21,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 
-@IntegrationTest
+@JacksonTest.IntegrationTest
 public class UpdateCategoryUseCaseIT {
 
     @Autowired

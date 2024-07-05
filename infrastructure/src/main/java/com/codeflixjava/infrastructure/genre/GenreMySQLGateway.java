@@ -22,13 +22,16 @@ public class GenreMySQLGateway implements GenreGateway {
     }
 
     @Override
-    public Genre create(Genre aGenre) {
+    public Genre create(final Genre aGenre) {
         return save(aGenre);
     }
 
     @Override
-    public void deleteById(GenreID anId) {
-
+    public void deleteById(final GenreID anId) {
+        var aGenreId = anId.getValue();
+        if (this.genreRepository.existsById(aGenreId)) {
+            this.genreRepository.deleteById(aGenreId);
+        }
     }
 
     @Override

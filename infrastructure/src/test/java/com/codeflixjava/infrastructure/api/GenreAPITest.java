@@ -149,7 +149,7 @@ public class GenreAPITest {
                 .andExpect(jsonPath("$.id", equalTo(expectedId)))
                 .andExpect(jsonPath("$.name", equalTo(expectedName)))
                 .andExpect(jsonPath("$.categories_id", equalTo(expectedCategories)))
-                .andExpect(jsonPath("$.is_active", equalTo(expectedId)))
+                .andExpect(jsonPath("$.is_active", equalTo(expectedIsActive)))
                 .andExpect(jsonPath("$.created_at", equalTo(aGenre.getCreatedAt().toString())))
                 .andExpect(jsonPath("$.updated_at", equalTo(aGenre.getUpdatedAt().toString())))
                 .andExpect(jsonPath("$.deleted_at", equalTo(aGenre.getDeletedAt().toString())));
@@ -167,7 +167,7 @@ public class GenreAPITest {
                 .thenThrow(NotFoundException.with(Genre.class, expectedId));
 
         // when
-        final var aRequest = get("/genres/{id}", expectedId)
+        final var aRequest = get("/genres/{id}", expectedId.getValue())
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON);
 

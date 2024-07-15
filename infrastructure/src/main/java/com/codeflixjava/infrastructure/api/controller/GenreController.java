@@ -2,12 +2,14 @@ package com.codeflixjava.infrastructure.api.controller;
 
 import com.codeflixjava.application.genre.create.CreateGenreCommand;
 import com.codeflixjava.application.genre.create.CreateGenreUseCase;
+import com.codeflixjava.application.genre.retrieve.get.GetGenreByIdUseCase;
 import com.codeflixjava.domain.pagination.Pagination;
 import com.codeflixjava.infrastructure.api.GenreAPI;
 import com.codeflixjava.infrastructure.genre.models.CreateGenreRequest;
 import com.codeflixjava.infrastructure.genre.models.GenreListResponse;
 import com.codeflixjava.infrastructure.genre.models.GenreResponse;
 import com.codeflixjava.infrastructure.genre.models.UpdateGenreRequest;
+import com.codeflixjava.infrastructure.genre.presenters.GenreApiPresenter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,9 +19,11 @@ import java.net.URI;
 public class GenreController implements GenreAPI {
 
     private final CreateGenreUseCase createGenreUseCase;
+    private final GetGenreByIdUseCase getGenreByIdUseCase;
 
-    public GenreController(final CreateGenreUseCase createGenreUseCase) {
+    public GenreController(final CreateGenreUseCase createGenreUseCase, final GetGenreByIdUseCase getGenreByIdUseCase) {
         this.createGenreUseCase = createGenreUseCase;
+        this.getGenreByIdUseCase = getGenreByIdUseCase;
     }
 
     @Override
@@ -48,7 +52,7 @@ public class GenreController implements GenreAPI {
 
     @Override
     public GenreResponse getById(final String id) {
-        return null;
+        return GenreApiPresenter.present(this.getGenreByIdUseCase.execute(id));
     }
 
     @Override

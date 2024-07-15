@@ -2,6 +2,7 @@ package com.codeflixjava.infrastructure.api.controller;
 
 import com.codeflixjava.application.genre.create.CreateGenreCommand;
 import com.codeflixjava.application.genre.create.CreateGenreUseCase;
+import com.codeflixjava.application.genre.delete.DeleteGenreUseCase;
 import com.codeflixjava.application.genre.retrieve.get.GetGenreByIdUseCase;
 import com.codeflixjava.application.genre.update.UpdateGenreCommand;
 import com.codeflixjava.application.genre.update.UpdateGenreUseCase;
@@ -23,13 +24,18 @@ public class GenreController implements GenreAPI {
     private final CreateGenreUseCase createGenreUseCase;
     private final GetGenreByIdUseCase getGenreByIdUseCase;
     private final UpdateGenreUseCase updateGenreUseCase;
+    private final DeleteGenreUseCase deleteGenreUseCase;
 
-    public GenreController(final CreateGenreUseCase createGenreUseCase,
-                           final GetGenreByIdUseCase getGenreByIdUseCase,
-                           final UpdateGenreUseCase updateGenreUseCase) {
+    public GenreController(
+            final CreateGenreUseCase createGenreUseCase,
+            final GetGenreByIdUseCase getGenreByIdUseCase,
+            final UpdateGenreUseCase updateGenreUseCase,
+            final DeleteGenreUseCase deleteGenreUseCase
+    ) {
         this.createGenreUseCase = createGenreUseCase;
         this.getGenreByIdUseCase = getGenreByIdUseCase;
         this.updateGenreUseCase = updateGenreUseCase;
+        this.deleteGenreUseCase = deleteGenreUseCase;
     }
 
     @Override
@@ -77,6 +83,6 @@ public class GenreController implements GenreAPI {
 
     @Override
     public void deleteById(final String id) {
-
+        this.deleteGenreUseCase.execute(id);
     }
 }

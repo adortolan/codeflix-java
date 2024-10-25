@@ -1,6 +1,7 @@
 package com.codeflixjava.e2e.category;
 
 import com.codeflixjava.E2ETest;
+import com.codeflixjava.domain.category.CategoryID;
 import com.codeflixjava.e2e.MockDsl;
 import com.codeflixjava.infrastructure.category.models.CategoryResponse;
 import com.codeflixjava.infrastructure.category.models.UpdateCategoryRequest;
@@ -289,5 +290,14 @@ public class CategoryE2ETest implements MockDsl {
                 .getResponse().getContentAsString();
 
         return Json.readValue(json, CategoryResponse.class);
+    }
+
+    @Test
+    public void asACatalogAdminIShouldNotSeeAnErrorByDeletingANotExistentCategory() throws Exception {
+        Assertions.assertTrue(MYSQL_CONTAINER.isRunning());
+        Assertions.assertEquals(0, categoryRepository.count());
+        deleteACategory(CategoryID.from("12313"))
+                .andExpect(status().isNoContent());
+        Assertions.assertEquals(0, categoryRepository.count());
     }
 }

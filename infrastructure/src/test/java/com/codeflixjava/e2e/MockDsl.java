@@ -28,6 +28,10 @@ public interface MockDsl {
         return this.delete("/categories/", anId);
     }
 
+    default ResultActions deleteAGenre(final Identifier anId) throws Exception {
+        return this.delete("/genres/", anId);
+    }
+
     default ResultActions listCategories(final int page, final int perPage) throws Exception {
         return listCategories(page, perPage, "", "", "");
     }

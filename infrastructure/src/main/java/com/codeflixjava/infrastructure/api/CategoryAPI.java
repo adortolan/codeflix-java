@@ -47,9 +47,7 @@ public interface CategoryAPI {
     );
 
     @GetMapping(
-            value = "{id}",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE
+            value = "{id}"
     )
     @Operation(summary = "Get a category by it's identifier")
     @ApiResponses(value = {

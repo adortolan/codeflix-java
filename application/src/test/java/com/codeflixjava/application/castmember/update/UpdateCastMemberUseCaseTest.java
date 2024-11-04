@@ -4,6 +4,7 @@ import com.codeflixjava.application.Fixture;
 import com.codeflixjava.application.UseCaseTest;
 import com.codeflixjava.domain.castmember.CastMember;
 import com.codeflixjava.domain.castmember.CastMemberGateway;
+import com.codeflixjava.domain.castmember.CastMemberID;
 import com.codeflixjava.domain.castmember.CastMemberType;
 import com.codeflixjava.domain.exceptions.NotFoundException;
 import com.codeflixjava.domain.exceptions.NotificationException;
@@ -85,7 +86,7 @@ public class UpdateCastMemberUseCaseTest extends UseCaseTest {
         verify(castMemberGateway, times(0)).update(any());
     }
     @Test
-    public void givenAInvalidType_whenCallsUpdateCastMember_shouldThrowsNotificationException() {
+    public void givenAInvalidId_whenCallsUpdateCastMember_shouldThrowsNotFoundException() {
         // given
         final var aMember = CastMember.newMember("vin diesel", CastMemberType.DIRECTOR);
         final var expectedId = aMember.getId();

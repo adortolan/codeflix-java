@@ -1,5 +1,6 @@
 package com.codeflixjava.application.castmember.retrieve.list;
 
+import com.codeflixjava.application.Fixture;
 import com.codeflixjava.application.UseCaseTest;
 import com.codeflixjava.domain.castmember.CastMember;
 import com.codeflixjava.domain.castmember.CastMemberGateway;
@@ -14,15 +15,20 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
 public class ListCastMembersUseCaseTest extends UseCaseTest {
+
     @InjectMocks
     private DefaultListCastMembersUseCase useCase;
+
     @Mock
     private CastMemberGateway castMemberGateway;
+
     @Override
     protected List<Object> getMocks() {
         return List.of(castMemberGateway);
     }
+
     @Test
     public void givenAValidQuery_whenCallsListCastMembers_shouldReturnAll() {
         // given
@@ -30,34 +36,43 @@ public class ListCastMembersUseCaseTest extends UseCaseTest {
                 CastMember.newMember(Fixture.name(), Fixture.CastMember.type()),
                 CastMember.newMember(Fixture.name(), Fixture.CastMember.type())
         );
+
         final var expectedPage = 0;
         final var expectedPerPage = 10;
         final var expectedTerms = "Algo";
         final var expectedSort = "createdAt";
         final var expectedDirection = "asc";
         final var expectedTotal = 2;
+
         final var expectedItems = members.stream()
                 .map(CastMemberListOutput::from)
                 .toList();
+
         final var expectedPagination = new Pagination<>(
                 expectedPage,
                 expectedPerPage,
                 expectedTotal,
-                expectedItems
+                members
         );
+
         when(castMemberGateway.findAll(any()))
                 .thenReturn(expectedPagination);
+
         final var aQuery =
                 new SearchQuery(expectedPage, expectedPerPage, expectedTerms, expectedSort, expectedDirection);
+
         // when
         final var actualOutput = useCase.execute(aQuery);
+
         // then
         Assertions.assertEquals(expectedPage, actualOutput.currentPage());
         Assertions.assertEquals(expectedPerPage, actualOutput.perPage());
         Assertions.assertEquals(expectedTotal, actualOutput.total());
         Assertions.assertEquals(expectedItems, actualOutput.items());
+
         verify(castMemberGateway).findAll(eq(aQuery));
     }
+
     @Test
     public void givenAValidQuery_whenCallsListCastMembersAndIsEmpty_shouldReturn() {
         // given
@@ -67,26 +82,35 @@ public class ListCastMembersUseCaseTest extends UseCaseTest {
         final var expectedSort = "createdAt";
         final var expectedDirection = "asc";
         final var expectedTotal = 0;
+
+        final var members = List.<CastMember>of();
         final var expectedItems = List.<CastMemberListOutput>of();
+
         final var expectedPagination = new Pagination<>(
                 expectedPage,
                 expectedPerPage,
                 expectedTotal,
-                expectedItems
+                members
         );
+
         when(castMemberGateway.findAll(any()))
                 .thenReturn(expectedPagination);
+
         final var aQuery =
                 new SearchQuery(expectedPage, expectedPerPage, expectedTerms, expectedSort, expectedDirection);
+
         // when
         final var actualOutput = useCase.execute(aQuery);
+
         // then
         Assertions.assertEquals(expectedPage, actualOutput.currentPage());
         Assertions.assertEquals(expectedPerPage, actualOutput.perPage());
         Assertions.assertEquals(expectedTotal, actualOutput.total());
         Assertions.assertEquals(expectedItems, actualOutput.items());
+
         verify(castMemberGateway).findAll(eq(aQuery));
     }
+
     @Test
     public void givenAValidQuery_whenCallsListCastMembersAndGatewayThrowsRandomException_shouldException() {
         // given
@@ -95,17 +119,23 @@ public class ListCastMembersUseCaseTest extends UseCaseTest {
         final var expectedTerms = "Algo";
         final var expectedSort = "createdAt";
         final var expectedDirection = "asc";
+
         final var expectedErrorMessage = "Gateway error";
+
         when(castMemberGateway.findAll(any()))
                 .thenThrow(new IllegalStateException(expectedErrorMessage));
+
         final var aQuery =
                 new SearchQuery(expectedPage, expectedPerPage, expectedTerms, expectedSort, expectedDirection);
+
         // when
         final var actualException = Assertions.assertThrows(IllegalStateException.class, () -> {
             useCase.execute(aQuery);
         });
+
         // then
         Assertions.assertEquals(expectedErrorMessage, actualException.getMessage());
+
         verify(castMemberGateway).findAll(eq(aQuery));
     }
 }

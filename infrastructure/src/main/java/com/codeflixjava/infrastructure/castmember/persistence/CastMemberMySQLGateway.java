@@ -5,6 +5,7 @@ import com.codeflixjava.domain.castmember.CastMemberGateway;
 import com.codeflixjava.domain.castmember.CastMemberID;
 import com.codeflixjava.domain.pagination.Pagination;
 import com.codeflixjava.domain.pagination.SearchQuery;
+import com.codeflixjava.infrastructure.castmember.CastMemberJpaEntity;
 import org.springframework.stereotype.Component;
 import java.util.Objects;
 import java.util.Optional;
@@ -17,7 +18,7 @@ public class CastMemberMySQLGateway implements CastMemberGateway {
     }
     @Override
     public CastMember create(final CastMember aCastMember) {
-        return null;
+        return save(aCastMember);
     }
     @Override
     public void deleteById(final CastMemberID anId) {
@@ -33,5 +34,10 @@ public class CastMemberMySQLGateway implements CastMemberGateway {
     @Override
     public Pagination<CastMember> findAll(final SearchQuery aQuery) {
         return null;
+    }
+
+    private CastMember save(final CastMember aCastMember) {
+        return this.castMemberRepository.save(CastMemberJpaEntity.from(aCastMember))
+                .toAggregate();
     }
 }

@@ -29,7 +29,7 @@ public class CastMemberMySQLGateway implements CastMemberGateway {
     }
     @Override
     public CastMember update(final CastMember aCastMember) {
-        return null;
+        return save(aCastMember);
     }
     @Override
     public Pagination<CastMember> findAll(final SearchQuery aQuery) {

@@ -2,6 +2,7 @@ package com.codeflixjava.infrastructure.castmember;
 
 import com.codeflixjava.MySQLGatewayTest;
 import com.codeflixjava.domain.castmember.CastMember;
+import com.codeflixjava.domain.castmember.CastMemberID;
 import com.codeflixjava.domain.castmember.CastMemberType;
 import com.codeflixjava.infrastructure.castmember.persistence.CastMemberMySQLGateway;
 import com.codeflixjava.infrastructure.castmember.persistence.CastMemberRepository;
@@ -77,5 +78,28 @@ public class CastMemberMySQLGatewayTest {
         Assertions.assertEquals(expectedType, persistedMember.getType());
         Assertions.assertEquals(aMember.getCreatedAt(), persistedMember.getCreatedAt());
         Assertions.assertTrue(aMember.getUpdatedAt().isBefore(persistedMember.getUpdatedAt()));
+    }
+
+    @Test
+    public void givenAValidCastMember_whenCallsDeleteById_shouldDeleteIt() {
+        // given
+        final var aMember = CastMember.newMember(name(), type());
+        castMemberRepository.saveAndFlush(CastMemberJpaEntity.from(aMember));
+        Assertions.assertEquals(1, castMemberRepository.count());
+        // when
+        castMemberGateway.deleteById(aMember.getId());
+        // then
+        Assertions.assertEquals(0, castMemberRepository.count());
+    }
+    @Test
+    public void givenAnInvalidId_whenCallsDeleteById_shouldBeIgnored() {
+        // given
+        final var aMember = CastMember.newMember(name(), type());
+        castMemberRepository.saveAndFlush(CastMemberJpaEntity.from(aMember));
+        Assertions.assertEquals(1, castMemberRepository.count());
+        // when
+        castMemberGateway.deleteById(CastMemberID.from("123"));
+        // then
+        Assertions.assertEquals(1, castMemberRepository.count());
     }
 }

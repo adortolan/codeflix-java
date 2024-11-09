@@ -7,6 +7,7 @@ import com.codeflixjava.application.castmember.create.DefaultCreateCastMemberUse
 import com.codeflixjava.application.castmember.delete.DefaultDeleteCastMemberUseCase;
 import com.codeflixjava.application.castmember.retrieve.get.CastMemberOutput;
 import com.codeflixjava.application.castmember.retrieve.get.DefaultGetCastMemberByIdUseCase;
+import com.codeflixjava.application.castmember.retrieve.list.CastMemberListOutput;
 import com.codeflixjava.application.castmember.retrieve.list.DefaultListCastMembersUseCase;
 import com.codeflixjava.application.castmember.update.DefaultUpdateCastMemberUseCase;
 import com.codeflixjava.application.castmember.update.UpdateCastMemberOutput;

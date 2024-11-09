@@ -71,6 +71,33 @@ public class Video extends AggregateRoot<VideoID> {
         this.genres = genres;
         this.castMembers = members;
     }
+
+    public Video update(
+            final String aTitle,
+            final String aDescription,
+            final Year aLaunchYear,
+            final double aDuration,
+            final boolean wasOpened,
+            final boolean wasPublished,
+            final Rating aRating,
+            final Set<CategoryID> categories,
+            final Set<GenreID> genres,
+            final Set<CastMemberID> members
+    ) {
+        this.title = aTitle;
+        this.description = aDescription;
+        this.launchedAt = aLaunchYear;
+        this.duration = aDuration;
+        this.opened = wasOpened;
+        this.published = wasPublished;
+        this.rating = aRating;
+        this.setCategories(categories);
+        this.setGenres(genres);
+        this.setCastMembers(members);
+        this.updatedAt = InstantUtils.now().minusMillis(1);
+        return this;
+    }
+
     @Override
     public void validate(final ValidationHandler handler) {
     }
@@ -142,6 +169,7 @@ public class Video extends AggregateRoot<VideoID> {
     }
     public Video setBanner(final ImageMedia banner) {
         this.banner = banner;
+        this.updatedAt = InstantUtils.now();
         return this;
     }
     public Optional<ImageMedia> getThumbnail() {
@@ -149,6 +177,7 @@ public class Video extends AggregateRoot<VideoID> {
     }
     public Video setThumbnail(final ImageMedia thumbnail) {
         this.thumbnail = thumbnail;
+        this.updatedAt = InstantUtils.now();
         return this;
     }
     public Optional<ImageMedia> getThumbnailHalf() {
@@ -156,6 +185,7 @@ public class Video extends AggregateRoot<VideoID> {
     }
     public Video setThumbnailHalf(final ImageMedia thumbnailHalf) {
         this.thumbnailHalf = thumbnailHalf;
+        this.updatedAt = InstantUtils.now();
         return this;
     }
     public Optional<AudioVideoMedia> getTrailer() {
@@ -163,6 +193,7 @@ public class Video extends AggregateRoot<VideoID> {
     }
     public Video setTrailer(final AudioVideoMedia trailer) {
         this.trailer = trailer;
+        this.updatedAt = InstantUtils.now();
         return this;
     }
     public Optional<AudioVideoMedia> getVideo() {
@@ -170,28 +201,26 @@ public class Video extends AggregateRoot<VideoID> {
     }
     public Video setVideo(final AudioVideoMedia video) {
         this.video = video;
+        this.updatedAt = InstantUtils.now();
         return this;
     }
     public Set<CategoryID> getCategories() {
         return categories != null ? Collections.unmodifiableSet(categories) : Collections.emptySet();
     }
-    public Video setCategories(final Set<CategoryID> categories) {
+    public void setCategories(final Set<CategoryID> categories) {
         this.categories = categories != null ? new HashSet<>(categories) : Collections.emptySet();
-        return this;
     }
     public Set<GenreID> getGenres() {
         return genres != null ? Collections.unmodifiableSet(genres) : Collections.emptySet();
     }
-    public Video setGenres(final Set<GenreID> genres) {
+    public void setGenres(final Set<GenreID> genres) {
         this.genres = genres != null ? new HashSet<>(genres) : Collections.emptySet();
-        return this;
     }
     public Set<CastMemberID> getCastMembers() {
         return castMembers != null ? Collections.unmodifiableSet(castMembers) : Collections.emptySet();
     }
-    public Video setCastMembers(final Set<CastMemberID> castMembers) {
+    public void setCastMembers(final Set<CastMemberID> castMembers) {
         this.castMembers = castMembers != null ? new HashSet<>(castMembers) : Collections.emptySet();
-        return this;
     }
     public static Video newVideo(
             final String aTitle,

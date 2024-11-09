@@ -5,6 +5,7 @@ import com.codeflixjava.application.castmember.create.CreateCastMemberUseCase;
 import com.codeflixjava.application.castmember.retrieve.get.GetCastMemberByIdUseCase;
 import com.codeflixjava.application.castmember.update.UpdateCastMemberCommand;
 import com.codeflixjava.application.castmember.update.UpdateCastMemberUseCase;
+import com.codeflixjava.application.category.delete.DeleteCategoryUseCase;
 import com.codeflixjava.infrastructure.api.CastMemberAPI;
 import com.codeflixjava.infrastructure.castmember.models.CastMemberResponse;
 import com.codeflixjava.infrastructure.castmember.models.CreateCastMemberRequest;
@@ -21,15 +22,18 @@ public class CastMemberController implements CastMemberAPI {
     private final CreateCastMemberUseCase createCastMemberUseCase;
     private final GetCastMemberByIdUseCase getCastMemberByIdUseCase;
     private final UpdateCastMemberUseCase updateCastMemberUseCase;
+    private final DeleteCategoryUseCase deleteCastMemberUseCase;
 
     public CastMemberController(
             final CreateCastMemberUseCase createCastMemberUseCase,
             final GetCastMemberByIdUseCase getCastMemberByIdUseCase,
-            final UpdateCastMemberUseCase updateCastMemberUseCase
+            final UpdateCastMemberUseCase updateCastMemberUseCase,
+            final DeleteCategoryUseCase deleteCastMemberUseCase
     ) {
         this.createCastMemberUseCase = Objects.requireNonNull(createCastMemberUseCase);
         this.getCastMemberByIdUseCase = Objects.requireNonNull(getCastMemberByIdUseCase);
         this.updateCastMemberUseCase = Objects.requireNonNull(updateCastMemberUseCase);
+        this.deleteCastMemberUseCase = Objects.requireNonNull(deleteCastMemberUseCase);
     }
 
     @Override
@@ -51,5 +55,10 @@ public class CastMemberController implements CastMemberAPI {
                 UpdateCastMemberCommand.with(id, aBody.name(), aBody.type());
         final var output = this.updateCastMemberUseCase.execute(aCommand);
         return ResponseEntity.ok(output);
+    }
+
+    @Override
+    public void deleteById(final String id) {
+        this.deleteCastMemberUseCase.execute(id);
     }
 }

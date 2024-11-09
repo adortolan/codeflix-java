@@ -7,6 +7,7 @@ import com.codeflixjava.domain.category.CategoryID;
 import com.codeflixjava.domain.genre.GenreID;
 import com.codeflixjava.infrastructure.castmember.models.CastMemberResponse;
 import com.codeflixjava.infrastructure.castmember.models.CreateCastMemberRequest;
+import com.codeflixjava.infrastructure.castmember.models.UpdateCastMemberRequest;
 import com.codeflixjava.infrastructure.category.models.CategoryResponse;
 import com.codeflixjava.infrastructure.category.models.CreateCategoryRequest;
 import com.codeflixjava.infrastructure.category.models.UpdateCategoryRequest;
@@ -109,6 +110,10 @@ public interface MockDsl {
     default ResultActions givenACastMemberResult(final String aName, final CastMemberType aType) throws Exception {
         final var aRequestBody = new CreateCastMemberRequest(aName, aType);
         return this.givenResult("/cast_members", aRequestBody);
+    }
+
+    default ResultActions updateACastMember(final CastMemberID anId, final String aName, final CastMemberType aType) throws Exception {
+        return this.update("/cast_members/", anId, new UpdateCastMemberRequest(aName, aType));
     }
 
     private ResultActions retrieveResult(final String url, final Identifier anId) throws Exception {

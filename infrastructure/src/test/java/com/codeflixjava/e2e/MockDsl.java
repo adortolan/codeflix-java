@@ -1,8 +1,11 @@
 package com.codeflixjava.e2e;
 
 import com.codeflixjava.domain.Identifier;
+import com.codeflixjava.domain.castmember.CastMemberID;
+import com.codeflixjava.domain.castmember.CastMemberType;
 import com.codeflixjava.domain.category.CategoryID;
 import com.codeflixjava.domain.genre.GenreID;
+import com.codeflixjava.infrastructure.castmember.models.CreateCastMemberRequest;
 import com.codeflixjava.infrastructure.category.models.CategoryResponse;
 import com.codeflixjava.infrastructure.category.models.CreateCategoryRequest;
 import com.codeflixjava.infrastructure.category.models.UpdateCategoryRequest;
@@ -77,6 +80,13 @@ public interface MockDsl {
         final var actualId = this.given("/genres", aRequestBody);
         return GenreID.from(actualId);
     }
+
+    default CastMemberID givenACastMember(final String aName, final CastMemberType aType) throws Exception {
+        final var aRequestBody = new CreateCastMemberRequest(aName, aType);
+        final var actualId = this.given("/cast_members", aRequestBody);
+        return CastMemberID.from(actualId);
+    }
+
     default <A, D> List<D> mapTo(final List<A> actual, final Function<A, D> mapper) {
         return actual.stream()
                 .map(mapper)

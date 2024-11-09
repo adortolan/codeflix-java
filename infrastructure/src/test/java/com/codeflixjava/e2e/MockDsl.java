@@ -151,6 +151,11 @@ public interface MockDsl {
                 .contentType(MediaType.APPLICATION_JSON);
         return this.mvc().perform(aRequest);
     }
+
+    default ResultActions deleteACastMember(final CastMemberID anId) throws Exception {
+        return this.delete("/cast_members/", anId);
+    }
+
     private <T> T retrieve(final String url, final Identifier anId, final Class<T> clazz) throws Exception {
         final var aRequest = get(url + anId.getValue())
                 .accept(MediaType.APPLICATION_JSON_UTF8)

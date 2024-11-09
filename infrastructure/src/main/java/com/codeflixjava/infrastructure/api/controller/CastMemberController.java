@@ -2,6 +2,7 @@ package com.codeflixjava.infrastructure.api.controller;
 
 import com.codeflixjava.application.castmember.create.CreateCastMemberCommand;
 import com.codeflixjava.application.castmember.create.CreateCastMemberUseCase;
+import com.codeflixjava.application.castmember.delete.DeleteCastMemberUseCase;
 import com.codeflixjava.application.castmember.retrieve.get.GetCastMemberByIdUseCase;
 import com.codeflixjava.application.castmember.update.UpdateCastMemberCommand;
 import com.codeflixjava.application.castmember.update.UpdateCastMemberUseCase;
@@ -22,13 +23,13 @@ public class CastMemberController implements CastMemberAPI {
     private final CreateCastMemberUseCase createCastMemberUseCase;
     private final GetCastMemberByIdUseCase getCastMemberByIdUseCase;
     private final UpdateCastMemberUseCase updateCastMemberUseCase;
-    private final DeleteCategoryUseCase deleteCastMemberUseCase;
+    private final DeleteCastMemberUseCase deleteCastMemberUseCase;
 
     public CastMemberController(
             final CreateCastMemberUseCase createCastMemberUseCase,
             final GetCastMemberByIdUseCase getCastMemberByIdUseCase,
             final UpdateCastMemberUseCase updateCastMemberUseCase,
-            final DeleteCategoryUseCase deleteCastMemberUseCase
+            DeleteCastMemberUseCase deleteCastMemberUseCase
     ) {
         this.createCastMemberUseCase = Objects.requireNonNull(createCastMemberUseCase);
         this.getCastMemberByIdUseCase = Objects.requireNonNull(getCastMemberByIdUseCase);

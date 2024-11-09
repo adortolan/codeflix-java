@@ -17,6 +17,7 @@ import com.codeflixjava.domain.exceptions.NotFoundException;
 import com.codeflixjava.domain.exceptions.NotificationException;
 import com.codeflixjava.domain.validation.Error;
 import com.codeflixjava.infrastructure.castmember.models.CreateCastMemberRequest;
+import com.codeflixjava.infrastructure.castmember.models.UpdateCastMemberRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -105,6 +106,9 @@ public class CastMemberAPITest {
         final var aRequest = post("/cast_members")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(aCommand));
+
+        when(createCastMemberUseCase.execute(any()))
+                .thenThrow(NotificationException.with(new Error(expectedErrorMessage)));
 
         final var response = this.mvc.perform(aRequest)
                 .andDo(print());
@@ -226,7 +230,7 @@ public class CastMemberAPITest {
         final var expectedId = CastMemberID.from("123");
         final var expectedName = Fixture.name();
         final var expectedType = Fixture.CastMember.type();
-        final var expectedErrorMessage = "Could not update Aggregate CastMember 123";
+        final var expectedErrorMessage = "CastMember with ID 123 was not found";
         final var aCommand =
                 new UpdateCastMemberRequest(expectedName, expectedType);
         when(updateCastMemberUseCase.execute(any()))

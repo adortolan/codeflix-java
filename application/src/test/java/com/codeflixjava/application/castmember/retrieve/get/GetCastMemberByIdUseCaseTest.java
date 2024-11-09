@@ -29,7 +29,7 @@ public class GetCastMemberByIdUseCaseTest extends UseCaseTest {
     public void givenAValidId_whenCallsGetCastMember_shouldReturnIt() {
         // given
         final var expectedName = Fixture.name();
-        final var expectedType = Fixture.CastMember.type();
+        final var expectedType = Fixture.CastMembers.type();
         final var aMember = CastMember.newMember(expectedName, expectedType);
         final var expectedId = aMember.getId();
         when(castMemberGateway.findById(any()))

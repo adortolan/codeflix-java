@@ -2,8 +2,11 @@ package com.codeflixjava.infrastructure.api.controller;
 
 import com.codeflixjava.application.castmember.create.CreateCastMemberCommand;
 import com.codeflixjava.application.castmember.create.CreateCastMemberUseCase;
+import com.codeflixjava.application.castmember.retrieve.get.GetCastMemberByIdUseCase;
 import com.codeflixjava.infrastructure.api.CastMemberAPI;
+import com.codeflixjava.infrastructure.castmember.models.CastMemberResponse;
 import com.codeflixjava.infrastructure.castmember.models.CreateCastMemberRequest;
+import com.codeflixjava.infrastructure.castmember.presenter.CastMemberPresenter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,11 +16,15 @@ import java.util.Objects;
 @RestController
 public class CastMemberController implements CastMemberAPI {
     private final CreateCastMemberUseCase createCastMemberUseCase;
+    private final GetCastMemberByIdUseCase getCastMemberByIdUseCase;
 
-    public CastMemberController(final CreateCastMemberUseCase createCastMemberUseCase) {
+    public CastMemberController(
+            final CreateCastMemberUseCase createCastMemberUseCase,
+            final GetCastMemberByIdUseCase getCastMemberByIdUseCase
+    ) {
         this.createCastMemberUseCase = Objects.requireNonNull(createCastMemberUseCase);
+        this.getCastMemberByIdUseCase = Objects.requireNonNull(getCastMemberByIdUseCase);
     }
-
 
     @Override
     public ResponseEntity<?> create(final CreateCastMemberRequest input) {
@@ -25,5 +32,10 @@ public class CastMemberController implements CastMemberAPI {
                 CreateCastMemberCommand.with(input.name(), input.type());
         final var output = this.createCastMemberUseCase.execute(aCommand);
         return ResponseEntity.created(URI.create("/cast_members/" + output.id())).body(output);
+    }
+
+    @Override
+    public CastMemberResponse getById(String id) {
+        return CastMemberPresenter.present(this.getCastMemberByIdUseCase.execute(id));
     }
 }

@@ -53,7 +53,7 @@ public class VideoValidatorTest {
         // when
         final var actualError = Assertions.assertThrows(
                 DomainException.class,
-                () -> validator.validate()
+                () -> actualVideo.validate(new ThrowsValidationHandler())
         );
 
         // then
@@ -101,7 +101,7 @@ public class VideoValidatorTest {
         // when
         final var actualError = Assertions.assertThrows(
                 DomainException.class,
-                () -> validator.validate()
+                () -> actualVideo.validate(new ThrowsValidationHandler())
         );
 
         // then
@@ -155,7 +155,7 @@ public class VideoValidatorTest {
         // when
         final var actualError = Assertions.assertThrows(
                 DomainException.class,
-                () -> validator.validate()
+                () -> actualVideo.validate(new ThrowsValidationHandler())
         );
 
         // then
@@ -198,7 +198,7 @@ public class VideoValidatorTest {
         // when
         final var actualError = Assertions.assertThrows(
                 DomainException.class,
-                () -> validator.validate()
+                () -> actualVideo.validate(new ThrowsValidationHandler())
         );
 
         // then
@@ -259,7 +259,7 @@ public class VideoValidatorTest {
         // when
         final var actualError = Assertions.assertThrows(
                 DomainException.class,
-                () -> validator.validate()
+                () -> actualVideo.validate(new ThrowsValidationHandler())
         );
 
         // then
@@ -345,7 +345,7 @@ public class VideoValidatorTest {
         // when
         final var actualError = Assertions.assertThrows(
                 DomainException.class,
-                () -> validator.validate()
+                () -> actualVideo.validate(new ThrowsValidationHandler())
         );
 
         // then

@@ -18,7 +18,7 @@ public class ImageMediaJpaEntity {
     private String filePath;
     public ImageMediaJpaEntity() {
     }
-    public ImageMediaJpaEntity(
+    private ImageMediaJpaEntity(
             final String id,
             final String name,
             final String filePath

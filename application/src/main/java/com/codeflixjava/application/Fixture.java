@@ -36,6 +36,21 @@ public final class Fixture {
         );
     }
 
+    public static Video video() {
+        return Video.newVideo(
+                Fixture.title(),
+                Videos.description(),
+                Year.of(Fixture.year()),
+                Fixture.duration(),
+                Fixture.bool(),
+                Fixture.bool(),
+                Videos.rating(),
+                Set.of(Categories.aulas().getId()),
+                Set.of(Genres.tech().getId()),
+                Set.of(CastMembers.wesley().getId(), CastMembers.gabriel().getId())
+        );
+    }
+
     public static final class Categories {
         private static final Category AULAS =
                 Category.newCategory("Aulas", "Some description", true);
@@ -96,19 +111,21 @@ public final class Fixture {
             );
         }
 
+        private static final Video SYSTEM_DESIGN = Video.newVideo(
+                "System Design no Mercado Livre na prática",
+                description(),
+                Year.of(2022),
+                Fixture.duration(),
+                Fixture.bool(),
+                Fixture.bool(),
+                rating(),
+                Set.of(Categories.aulas().getId()),
+                Set.of(Genres.tech().getId()),
+                Set.of(CastMembers.wesley().getId(), CastMembers.gabriel().getId())
+        );
+
         public static Video systemDesign() {
-            return Video.newVideo(
-                    Fixture.title(),
-                    Videos.description(),
-                    Year.of(Fixture.year()),
-                    Fixture.duration(),
-                    Fixture.bool(),
-                    Fixture.bool(),
-                    Videos.rating(),
-                    Set.of(Categories.aulas().getId()),
-                    Set.of(Genres.tech().getId()),
-                    Set.of(CastMembers.wesley().getId(), CastMembers.gabriel().getId())
-            );
+            return Video.with(SYSTEM_DESIGN);
         }
     }
 }

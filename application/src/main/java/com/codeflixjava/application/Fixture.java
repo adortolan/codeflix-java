@@ -6,7 +6,11 @@ import com.codeflixjava.domain.category.Category;
 import com.codeflixjava.domain.genre.Genre;
 import com.codeflixjava.domain.video.Rating;
 import com.codeflixjava.domain.video.Resource;
+import com.codeflixjava.domain.video.Video;
 import com.github.javafaker.Faker;
+
+import java.time.Year;
+import java.util.Set;
 
 import static io.vavr.API.*;
 
@@ -89,6 +93,21 @@ public final class Fixture {
                             Nesse vídeo você entenderá o que é DTO (Data Transfer Object), quando e como utilizar no dia a dia, 
                             bem como sua importância para criar aplicações com alta qualidade.
                             """
+            );
+        }
+
+        public static Video systemDesign() {
+            return Video.newVideo(
+                    Fixture.title(),
+                    Videos.description(),
+                    Year.of(Fixture.year()),
+                    Fixture.duration(),
+                    Fixture.bool(),
+                    Fixture.bool(),
+                    Videos.rating(),
+                    Set.of(Categories.aulas().getId()),
+                    Set.of(Genres.tech().getId()),
+                    Set.of(CastMembers.wesley().getId(), CastMembers.gabriel().getId())
             );
         }
     }

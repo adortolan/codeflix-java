@@ -58,6 +58,7 @@ public class UpdateVideoUseCaseTest extends UseCaseTest {
         final Resource expectedThumb = Fixture.Videos.resource(Resource.Type.THUMBNAIL);
         final Resource expectedThumbHalf = Fixture.Videos.resource(Resource.Type.THUMBNAIL_HALF);
         final var aCommand = UpdateVideoCommand.with(
+                aVideo.getId().getValue(),
                 expectedTitle,
                 expectedDescription,
                 expectedLaunchYear.getValue(),

@@ -1,4 +1,4 @@
-package com.codeflixjava.application.video.create;
+package com.codeflixjava.application.video.update;
 
 import com.codeflixjava.domain.Identifier;
 import com.codeflixjava.domain.castmember.CastMemberGateway;
@@ -7,16 +7,14 @@ import com.codeflixjava.domain.category.CategoryGateway;
 import com.codeflixjava.domain.category.CategoryID;
 import com.codeflixjava.domain.exceptions.DomainException;
 import com.codeflixjava.domain.exceptions.InternalErrorException;
+import com.codeflixjava.domain.exceptions.NotFoundException;
 import com.codeflixjava.domain.exceptions.NotificationException;
 import com.codeflixjava.domain.genre.GenreGateway;
 import com.codeflixjava.domain.genre.GenreID;
 import com.codeflixjava.domain.validation.Error;
 import com.codeflixjava.domain.validation.ValidationHandler;
 import com.codeflixjava.domain.validation.handler.Notification;
-import com.codeflixjava.domain.video.MediaResourceGateway;
-import com.codeflixjava.domain.video.Rating;
-import com.codeflixjava.domain.video.Video;
-import com.codeflixjava.domain.video.VideoGateway;
+import com.codeflixjava.domain.video.*;
 
 import java.time.Year;
 import java.util.ArrayList;
@@ -26,38 +24,41 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
-public class DefaultCreateVideoUseCase extends CreateVideoUseCase {
+
+public class DefaultUpdateVideoUseCase extends UpdateVideoUseCase {
+    private final VideoGateway videoGateway;
     private final CategoryGateway categoryGateway;
     private final CastMemberGateway castMemberGateway;
     private final GenreGateway genreGateway;
-    private final VideoGateway videoGateway;
     private final MediaResourceGateway mediaResourceGateway;
-
-    public DefaultCreateVideoUseCase(
+    public DefaultUpdateVideoUseCase(
+            final VideoGateway videoGateway,
             final CategoryGateway categoryGateway,
             final CastMemberGateway castMemberGateway,
             final GenreGateway genreGateway,
-            final VideoGateway videoGateway,
             final MediaResourceGateway mediaResourceGateway
     ) {
+        this.videoGateway = Objects.requireNonNull(videoGateway);
         this.categoryGateway = Objects.requireNonNull(categoryGateway);
         this.castMemberGateway = Objects.requireNonNull(castMemberGateway);
         this.genreGateway = Objects.requireNonNull(genreGateway);
-        this.videoGateway = Objects.requireNonNull(videoGateway);
         this.mediaResourceGateway = Objects.requireNonNull(mediaResourceGateway);
     }
     @Override
-    public CreateVideoOutput execute(final CreateVideoCommand aCommand) {
+    public UpdateVideoOutput execute(final UpdateVideoCommand aCommand) {
+        final var anId = VideoID.from(aCommand.id());
         final var aRating = Rating.of(aCommand.rating()).orElse(null);
         final var aLaunchYear = aCommand.launchedAt() != null ? Year.of(aCommand.launchedAt()) : null;
         final var categories = toIdentifier(aCommand.categories(), CategoryID::from);
         final var genres = toIdentifier(aCommand.genres(), GenreID::from);
         final var members = toIdentifier(aCommand.members(), CastMemberID::from);
+        final var aVideo = this.videoGateway.findById(anId)
+                .orElseThrow(notFoundException(anId));
         final var notification = Notification.create();
         notification.append(validateCategories(categories));
         notification.append(validateGenres(genres));
         notification.append(validateMembers(members));
-        final var aVideo = Video.newVideo(
+        aVideo.update(
                 aCommand.title(),
                 aCommand.description(),
                 aLaunchYear,
@@ -71,11 +72,11 @@ public class DefaultCreateVideoUseCase extends CreateVideoUseCase {
         );
         aVideo.validate(notification);
         if (notification.hasError()) {
-            throw new NotificationException("Could not create Aggregate Video", notification);
+            throw new NotificationException("Could not update Aggregate Video", notification);
         }
-        return CreateVideoOutput.from(create(aCommand, aVideo));
+        return UpdateVideoOutput.from(update(aCommand, aVideo));
     }
-    private Video create(final CreateVideoCommand aCommand, final Video aVideo) {
+    private Video update(final UpdateVideoCommand aCommand, final Video aVideo) {
         final var anId = aVideo.getId();
         try {
             final var aVideoMedia = aCommand.getVideo()
@@ -93,7 +94,7 @@ public class DefaultCreateVideoUseCase extends CreateVideoUseCase {
             final var aThumbHalfMedia = aCommand.getThumbnailHalf()
                     .map(it -> this.mediaResourceGateway.storeImage(anId, it))
                     .orElse(null);
-            return this.videoGateway.create(
+            return this.videoGateway.update(
                     aVideo
                             .setVideo(aVideoMedia)
                             .setTrailer(aTrailerMedia)
@@ -102,12 +103,14 @@ public class DefaultCreateVideoUseCase extends CreateVideoUseCase {
                             .setThumbnailHalf(aThumbHalfMedia)
             );
         } catch (final Throwable t) {
-            this.mediaResourceGateway.clearResources(anId);
             throw InternalErrorException.with(
                     "An error on create video was observed [videoId:%s]".formatted(anId.getValue()),
                     t
             );
         }
+    }
+    private Supplier<DomainException> notFoundException(final VideoID anId) {
+        return () -> NotFoundException.with(Video.class, anId);
     }
     private ValidationHandler validateCategories(final Set<CategoryID> ids) {
         return validateAggregate("categories", ids, categoryGateway::existsByIds);

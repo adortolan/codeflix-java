@@ -1,9 +1,9 @@
 package com.codeflixjava.domain.category;
 
 import com.codeflixjava.domain.Identifier;
+import com.codeflixjava.domain.utils.IdUtils;
 
 import java.util.Objects;
-import java.util.UUID;
 
 public class CategoryID extends Identifier {
     private final String value;
@@ -14,16 +14,13 @@ public class CategoryID extends Identifier {
     }
 
     public static CategoryID unique() {
-        return CategoryID.from(UUID.randomUUID());
+        return CategoryID.from(IdUtils.uuid());
     }
 
     public static CategoryID from(final String anId) {
         return new CategoryID(anId);
     }
 
-    public static CategoryID from(final UUID anId) {
-        return new CategoryID(anId.toString().toLowerCase());
-    }
 
     @Override
     public String getValue() {

@@ -1,6 +1,5 @@
 package com.codeflixjava.domain.genre;
 
-import java.util.UUID;
 import com.codeflixjava.domain.Identifier;
 import com.codeflixjava.domain.utils.IdUtils;
 

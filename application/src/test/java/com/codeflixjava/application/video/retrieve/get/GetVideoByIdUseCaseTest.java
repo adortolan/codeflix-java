@@ -3,6 +3,7 @@ package com.codeflixjava.application.video.retrieve.get;
 import com.codeflixjava.application.Fixture;
 import com.codeflixjava.application.UseCaseTest;
 import com.codeflixjava.domain.exceptions.NotFoundException;
+import com.codeflixjava.domain.utils.IdUtils;
 import com.codeflixjava.domain.video.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -104,7 +105,7 @@ public class GetVideoByIdUseCaseTest extends UseCaseTest {
         Assertions.assertEquals(expectedErrorMessage, actualError.getMessage());
     }
     private AudioVideoMedia audioVideo(final Resource.Type type) {
-        final var checksum = UUID.randomUUID().toString();
+        final var checksum = IdUtils.uuid();
         return AudioVideoMedia.with(
                 checksum,
                 type.name().toLowerCase(),
@@ -114,7 +115,7 @@ public class GetVideoByIdUseCaseTest extends UseCaseTest {
         );
     }
     private ImageMedia image(final Resource.Type type) {
-        final var checksum = UUID.randomUUID().toString();
+        final var checksum = IdUtils.uuid();
         return ImageMedia.with(
                 checksum,
                 type.name().toLowerCase(),

@@ -16,8 +16,7 @@ public class DefaultVideoGateway implements VideoGateway {
     @Override
     @Transactional
     public Video create(final Video aVideo) {
-        return this.videoRepository.save(VideoJpaEntity.from(aVideo))
-                .toAggregate();
+        return save(aVideo);
     }
     @Override
     public void deleteById(final VideoID anId) {
@@ -38,5 +37,10 @@ public class DefaultVideoGateway implements VideoGateway {
     @Override
     public Pagination<VideoPreview> findAll(VideoSearchQuery aQuery) {
         return null;
+    }
+
+    private Video save(final Video aVideo) {
+        return this.videoRepository.save(VideoJpaEntity.from(aVideo))
+                .toAggregate();
     }
 }

@@ -3,6 +3,7 @@ package com.codeflixjava.infrastructure.video.persistence;
 import com.codeflixjava.domain.castmember.CastMemberID;
 import com.codeflixjava.domain.category.CategoryID;
 import com.codeflixjava.domain.genre.GenreID;
+import com.codeflixjava.domain.utils.CollectionUtils;
 import com.codeflixjava.domain.video.Rating;
 import com.codeflixjava.domain.video.Video;
 import com.codeflixjava.domain.video.VideoID;
@@ -326,5 +327,15 @@ public class VideoJpaEntity {
     public VideoJpaEntity setCastMembers(Set<VideoCastMemberJpaEntity> castMembers) {
         this.castMembers = castMembers;
         return this;
+    }
+
+    public Set<CategoryID> getCategoriesID() {
+        return CollectionUtils.mapTo(getCategories(), it -> CategoryID.from(it.getId().getCategoryId()));
+    }
+    public Set<GenreID> getGenresID() {
+        return CollectionUtils.mapTo(getGenres(), it -> GenreID.from(it.getId().getGenreId()));
+    }
+    public Set<CastMemberID> getCastMembersID() {
+        return CollectionUtils.mapTo(getCastMembers(), it -> CastMemberID.from(it.getId().getCastMemberId()));
     }
 }

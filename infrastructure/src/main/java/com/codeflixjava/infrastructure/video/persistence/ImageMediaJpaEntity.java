@@ -12,6 +12,8 @@ import javax.persistence.Table;
 public class ImageMediaJpaEntity {
     @Id
     private String id;
+    @Column(name = "checksum", nullable = false)
+    private String checksum;
     @Column(name = "name", nullable = false)
     private String name;
     @Column(name = "file_path", nullable = false)
@@ -20,15 +22,18 @@ public class ImageMediaJpaEntity {
     }
     private ImageMediaJpaEntity(
             final String id,
+            final String checksum,
             final String name,
             final String filePath
     ) {
         this.id = id;
+        this.checksum = checksum;
         this.name = name;
         this.filePath = filePath;
     }
     public static ImageMediaJpaEntity from(final ImageMedia media) {
         return new ImageMediaJpaEntity(
+                media.id(),
                 media.checksum(),
                 media.name(),
                 media.location()
@@ -37,6 +42,7 @@ public class ImageMediaJpaEntity {
     public ImageMedia toDomain() {
         return ImageMedia.with(
                 getId(),
+                getChecksum(),
                 getName(),
                 getFilePath()
         );
@@ -48,6 +54,15 @@ public class ImageMediaJpaEntity {
         this.id = id;
         return this;
     }
+
+    public String getChecksum() {
+        return checksum;
+    }
+    public ImageMediaJpaEntity setChecksum(String checksum) {
+        this.checksum = checksum;
+        return this;
+    }
+
     public String getName() {
         return name;
     }

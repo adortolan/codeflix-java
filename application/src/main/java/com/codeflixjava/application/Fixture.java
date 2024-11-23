@@ -22,7 +22,7 @@ public final class Fixture {
     public static Integer year() {
         return FAKER.random().nextInt(2020, 2030);
     }
-    public static Double duration() {
+    public static double duration() {
         return FAKER.options().option(120.0, 15.5, 35.5, 10.0, 2.0);
     }
     public static boolean bool() {

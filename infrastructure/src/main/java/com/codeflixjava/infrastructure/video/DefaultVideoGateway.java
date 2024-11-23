@@ -41,7 +41,7 @@ public class DefaultVideoGateway implements VideoGateway {
     }
     @Override
     public Video update(Video aVideo) {
-        return null;
+        return this.videoRepository.save(VideoJpaEntity.from(aVideo)).toAggregate();
     }
 
     @Override

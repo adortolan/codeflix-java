@@ -52,7 +52,7 @@ public class DefaultVideoGateway implements VideoGateway {
                 Sort.by(Sort.Direction.fromString(aQuery.direction()), aQuery.sort())
         );
         final var actualPage = this.videoRepository.findAll(
-                SqlUtils.like(aQuery.terms()),
+                SqlUtils.like(SqlUtils.upper(aQuery.terms())),
                 toString(aQuery.castMembers()),
                 toString(aQuery.categories()),
                 toString(aQuery.genres()),

@@ -12,7 +12,7 @@ import java.util.Set;
 
 public interface VideoRepository extends JpaRepository<VideoJpaEntity, String> {
     @Query("""
-            select new com.codeflixjava.domain.video.VideoPreview(
+            select distinct new com.codeflixjava.domain.video.VideoPreview(
                 v.id as id,
                 v.title as title,
                 v.description as description,
@@ -20,9 +20,9 @@ public interface VideoRepository extends JpaRepository<VideoJpaEntity, String> {
                 v.updatedAt as updatedAt
             )
             from Video v
-                join v.castMembers members
-                join v.categories categories
-                join v.genres genres
+                left v.castMembers members
+                left v.categories categories
+                left v.genres genres
             where
                 ( :terms is null or UPPER(v.title) like :terms )
             and

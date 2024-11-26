@@ -1,5 +1,6 @@
 package com.codeflixjava.infrastructure.genre;
 
+import com.codeflixjava.domain.category.CategoryID;
 import com.codeflixjava.domain.genre.Genre;
 import com.codeflixjava.domain.genre.GenreGateway;
 import com.codeflixjava.domain.genre.GenreID;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
 
 import static org.springframework.data.jpa.domain.Specification.where;
 
@@ -77,8 +79,13 @@ public class GenreMySQLGateway implements GenreGateway {
     }
 
     @Override
-    public List<GenreID> existsByIds(Iterable<GenreID> ids) {
-        throw new UnsupportedOperationException();
+    public List<GenreID> existsByIds(Iterable<GenreID> GenreIDs) {
+        final var ids = StreamSupport.stream(GenreIDs.spliterator(), false)
+                .map(GenreID::getValue)
+                .toList();
+        return this.genreRepository.existsByIds(ids).stream()
+                .map(GenreID::from)
+                .toList();
     }
 
     private Genre save(final Genre aGenre) {

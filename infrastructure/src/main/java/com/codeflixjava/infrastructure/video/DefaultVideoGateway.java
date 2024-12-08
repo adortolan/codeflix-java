@@ -45,26 +45,31 @@ public class DefaultVideoGateway implements VideoGateway {
     }
 
     @Override
-    public Pagination<VideoPreview> findAll(final VideoSearchQuery aQuery) {
-        final var page = PageRequest.of(
-                aQuery.page(),
-                aQuery.perPage(),
-                Sort.by(Sort.Direction.fromString(aQuery.direction()), aQuery.sort())
-        );
-        final var actualPage = this.videoRepository.findAll(
-                SqlUtils.like(SqlUtils.upper(aQuery.terms())),
-                toString(aQuery.castMembers()),
-                toString(aQuery.categories()),
-                toString(aQuery.genres()),
-                page
-        );
-        return new Pagination<>(
-                actualPage.getNumber(),
-                actualPage.getSize(),
-                actualPage.getTotalElements(),
-                actualPage.toList()
-        );
+    public Pagination<VideoPreview> findAll(VideoSearchQuery aQuery) {
+        return null;
     }
+
+//    @Override
+//    public Pagination<VideoPreview> findAll(final VideoSearchQuery aQuery) {
+//        final var page = PageRequest.of(
+//                aQuery.page(),
+//                aQuery.perPage(),
+//                Sort.by(Sort.Direction.fromString(aQuery.direction()), aQuery.sort())
+//        );
+//        final var actualPage = this.videoRepository.findAll(
+//                SqlUtils.like(SqlUtils.upper(aQuery.terms())),
+//                toString(aQuery.castMembers()),
+//                toString(aQuery.categories()),
+//                toString(aQuery.genres()),
+//                page
+//        );
+//        return new Pagination<>(
+//                actualPage.getNumber(),
+//                actualPage.getSize(),
+//                actualPage.getTotalElements(),
+//                actualPage.toList()
+//        );
+//    }
 
     private Video save(final Video aVideo) {
         return this.videoRepository.save(VideoJpaEntity.from(aVideo))
